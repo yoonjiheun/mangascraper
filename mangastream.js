@@ -7,16 +7,15 @@ function MangastreamScraper() {
   const BASE_URL = 'https://readms.net';
   const FILE_PATH = './mangastream-mangas.json';
   const VALID_NON_DATE_FORMAT = [ 'TODAY', '2 DAYS AGO', '3 DAYS AGO' ];
+  const API_KEY = 'umgNh898yV3Nv9vmMCqpSmlSeI98g1U4mQY7No3X';
+  const BOT_ID = '5db3781cb2fe4d9fe1e232c564';
   this.mangas = require(FILE_PATH) || {};
 
   this.sendMessage = ({title, chapter, released, chapterUrl}) => {
-    // const message =`New ${title} chapter has been released!\nChapter title: ${chapter}\nRelease date: ${released}\nChapter url: ${BASE_URL + chapterUrl}`;
+    const message =`New ${title} chapter has been released!\nChapter title: ${chapter}\nRelease date: ${released}\nChapter url: ${chapterUrl}`;
 
-    const message = `Test run\nNew ${title} chapter has been released!\nChapter title: ${chapter}\nRelease date: ${released}\nChapter url: ${chapterUrl}`;
-
-    request.post('https://api.groupme.com/v3/bots/post', { bot_id: 'b0e1332163781d11f43cd027c5' , text: message }, (error, response, body) => {
+    request.post(`https://api.groupme.com/v3/bots/post?token${API_KEY}`, {form: { bot_id: BOT_ID , text: message } }, (error, response, body) => {
       if(error) throw error;
-      console.log(body);
       console.log(message);
     });
   }
@@ -37,6 +36,8 @@ function MangastreamScraper() {
   }
 
   this.compare = (recent, old) => {
+    if(recent.released == old.released) return 0;
+
     for(let i=0; i<VALID_NON_DATE_FORMAT.length;i++) {
       if(recent.released.toUpperCase() == VALID_NON_DATE_FORMAT[i]) return 1;
     }

@@ -1,8 +1,30 @@
 const MangatownScraper = require('./mangatown');
 const MangastreamScraper = require('./mangastream');
 
-const mss = new MangatownScraper();
-const mts = new MangastreamScraper();
+const mt = new MangatownScraper();
+const ms = new MangastreamScraper();
 
-mss.scrapeAll();
-mts.scrapeAll();
+
+const args = process.argv;
+const action = args[2];
+
+if(action == '-add') {
+  const provider = args[3];
+  const link = args[4];
+
+  if(!provider || !link) return console.log('A parameter is missing. Please enter the provider and url for -add');
+  if(provider == 'ms') return ms.addManga(link);
+  if(provider == 'mt') return mt.addManga(link);
+}
+
+if(action == '-scrape') {
+  // Kick of scrape
+  ms.scrapeAll();
+  mt.scrapeAll();
+
+  // Below will execute after 15 minutes.
+  setInterval(() => {
+    ms.scrapeAll();
+    mt.scrapeAll();
+  }, 900000);
+}
