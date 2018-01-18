@@ -1,1 +1,23 @@
-{"https://readms.net/manga/tokyo_ghoulre":{"url":"https://readms.net/manga/tokyo_ghoulre","title":"Tokyo Ghoul:re","chapter":"156 - Uchikawa","released":"Today","chapterUrl":"https://readms.net/r/tokyo_ghoulre/156/4826/1"},"https://readms.net/manga/the_seven_deadly_sins":{"url":"https://readms.net/manga/the_seven_deadly_sins","title":"The Seven Deadly Sins","chapter":"250 - Composition","released":"Today","chapterUrl":"https://readms.net/r/the_seven_deadly_sins/250/4827/1"},"https://readms.net/manga/shokugeki_no_souma":{"url":"https://readms.net/manga/shokugeki_no_souma","title":"Shokugeki no Souma","chapter":"246 - The Cute Queen","released":"Jan 13 2018","chapterUrl":"https://readms.net/r/shokugeki_no_souma/246/4822/1"}}
+{
+  "https://readms.net/manga/tokyo_ghoulre": {
+    "url": "https://readms.net/manga/tokyo_ghoulre",
+    "title": "Tokyo Ghoul:re",
+    "chapter": "156 - Uchikawa",
+    "released": "2018-01-15T05:00:00.000Z",
+    "chapterUrl": "https://readms.net/r/tokyo_ghoulre/156/4826/1"
+  },
+  "https://readms.net/manga/shokugeki_no_souma": {
+    "url": "https://readms.net/manga/shokugeki_no_souma",
+    "title": "Shokugeki no Souma",
+    "chapter": "246 - The Cute Queen",
+    "released": "2018-01-13T05:00:00.000Z",
+    "chapterUrl": "https://readms.net/r/shokugeki_no_souma/246/4822/1"
+  },
+  "https://readms.net/manga/the_seven_deadly_sins": {
+    "url": "https://readms.net/manga/the_seven_deadly_sins",
+    "title": "The Seven Deadly Sins",
+    "chapter": "250 - Composition",
+    "released": "2018-01-16T05:00:00.000Z",
+    "chapterUrl": "https://readms.net/r/the_seven_deadly_sins/250/4827/1"
+  }
+}

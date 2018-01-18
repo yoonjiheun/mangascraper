@@ -18,6 +18,7 @@ if(action == '-add') {
 }
 
 if(action == '-scrape') {
+  console.log('Starting scraper... 15 minute interval');
   // Kick of scrape
   ms.scrapeAll();
   mt.scrapeAll();

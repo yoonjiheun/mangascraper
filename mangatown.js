@@ -1,25 +1,22 @@
-
+const moment = require('moment');
 const request = require('request');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-const mts = new MangatownScraper();
-
 function MangatownScraper() {
   const BASE_URL = 'http://www.mangatown.com/';
   const FILE_PATH = './mangatown-mangas.json';
-  const VALID_NON_DATE_FORMAT = [ 'TODAY', 'YESTERDAY' ];
   const API_KEY = 'umgNh898yV3Nv9vmMCqpSmlSeI98g1U4mQY7No3X';
   const BOT_ID = '5db3781cb2fe4d9fe1e232c564';
   this.mangas = require(FILE_PATH) || {};
 
   this.sendMessage = ({title, chapter, released, chapterUrl}) => {
-    const message =`New ${title} chapter has been released!\nChapter title: ${chapter}\nRelease date: ${released}\nChapter url: ${chapterUrl}`;
-
-    request.post(`https://api.groupme.com/v3/bots/post?token${API_KEY}`, {form: { bot_id: BOT_ID , text: message } }, (error, response, body) => {
-      if(error) throw error;
-      console.log(message);
-    });
+    const prettyDate = moment(released).format('MMMM Do YYYY');
+    const message =`New ${title} chapter has been released!\nChapter title: ${chapter}\nRelease date: ${prettyDate}\nChapter url: ${chapterUrl}`;
+    // request.post(`https://api.groupme.com/v3/bots/post?token${API_KEY}`, {form: { bot_id: BOT_ID , text: message } }, (error, response, body) => {
+    //   if(error) throw error;
+    //   console.log(message);
+    // });
   }
 
   this.addManga = (url) => {
@@ -32,37 +29,32 @@ function MangatownScraper() {
   }
 
   this.save = () => {
-    const JSON_STRING = JSON.stringify(this.mangas);
+    const JSON_STRING = JSON.stringify(this.mangas, null, 2);
     fs.writeFileSync(FILE_PATH, JSON_STRING);
     return true;
   }
 
   this.compare = (recent, old) => {
-    if(recent.released == old.released) return 0;
-
-    for(let i=0; i<VALID_NON_DATE_FORMAT.length;i++) {
-      if(recent.released.toUpperCase() == VALID_NON_DATE_FORMAT[i]) return 1;
-    }
-
-    let recentDate = new Date(recent.released);
-    let oldDate = new Date(old.released);
-
+    const recentDate = new Date(recent.released);
+    const oldDate = new Date(old.released);
     if(recentDate > oldDate) return 1;
     else return 0;
-
   }
 
   this.convertDate = (date) => {
-    for(let i=0; i<VALID_NON_DATE_FORMAT.length;i++) {
-      if(date.toUpperCase() == VALID_NON_DATE_FORMAT[i]) return date;
+    let dateObj;
+    if(date.toUpperCase() == 'TODAY') {
+      dateObj = new Date(new Date().setHours(0,0,0,0));
+    } else if(date.toUpperCase() == 'YESTERDAY') {
+      dateObj = new Date(moment().startOf('day').subtract(1, 'days').format('LL'));
+    } else {
+      const tokens = date.split(' ');
+      var month = tokens[0];
+      var date = tokens[1].replace(/(th|st),/, '');
+      var year = tokens[2];
+      dateObj = new Date([month, date, year].join(' '));
     }
-
-    const tokens = date.split(' ');
-    var month = tokens[0];
-    var date = tokens[1].replace(/,/, '');
-    var year = tokens[2];
-
-    return [month, date, year].join(' ');
+    return dateObj;
   }
 
   this.scrapeOne = (url) => {
@@ -94,7 +86,6 @@ function MangatownScraper() {
 
   // execution method
   this.scrapeAll = () => {
-    console.log('Starting scraper... 15 minute interval');
     let promises = [];
     let keys = Object.keys(this.mangas);
     for(let i=0; i<keys.length;i++) {

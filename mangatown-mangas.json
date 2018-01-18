@@ -1,1 +1,23 @@
-{"http://www.mangatown.com/manga/relife/":{"url":"http://www.mangatown.com/manga/relife/","title":"ReLIFE","chapter":"ReLIFE 213","released":"Today","chapterUrl":"http://www.mangatown.com/manga/relife/c213/"},"http://www.mangatown.com/manga/nanatsu_no_taizai/":{"url":"http://www.mangatown.com/manga/nanatsu_no_taizai/","title":"Nanatsu no Taizai","chapter":"Nanatsu no Taizai 250","released":"Yesterday","chapterUrl":"http://www.mangatown.com/manga/nanatsu_no_taizai/c250/"},"http://www.mangatown.com/manga/shokugeki_no_soma/":{"url":"http://www.mangatown.com/manga/shokugeki_no_soma/","title":"Shokugeki no Soma","chapter":"Shokugeki no Soma 246","released":"Jan 13 2018","chapterUrl":"http://www.mangatown.com/manga/shokugeki_no_soma/c246/"}}
+{
+  "http://www.mangatown.com/manga/tokyo_ghoul_re/": {
+    "url": "http://www.mangatown.com/manga/tokyo_ghoul_re/",
+    "title": "Tokyo Ghoul:re",
+    "chapter": "Tokyo Ghoul:re 156",
+    "released": "2018-01-15T05:00:00.000Z",
+    "chapterUrl": "http://www.mangatown.com/manga/tokyo_ghoul_re/c156/"
+  },
+  "http://www.mangatown.com/manga/shokugeki_no_soma/": {
+    "url": "http://www.mangatown.com/manga/shokugeki_no_soma/",
+    "title": "Shokugeki no Soma",
+    "chapter": "Shokugeki no Soma 246",
+    "released": "2018-01-13T05:00:00.000Z",
+    "chapterUrl": "http://www.mangatown.com/manga/shokugeki_no_soma/c246/"
+  },
+  "http://www.mangatown.com/manga/nanatsu_no_taizai/": {
+    "url": "http://www.mangatown.com/manga/nanatsu_no_taizai/",
+    "title": "Nanatsu no Taizai",
+    "chapter": "Nanatsu no Taizai 250",
+    "released": "2018-01-16T05:00:00.000Z",
+    "chapterUrl": "http://www.mangatown.com/manga/nanatsu_no_taizai/c250/"
+  }
+}
