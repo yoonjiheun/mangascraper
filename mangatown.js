@@ -3,22 +3,31 @@ const request = require('request');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
+// Mangatown scraper function/class
 function MangatownScraper() {
+  // Constants
   const BASE_URL = 'http://www.mangatown.com/';
   const FILE_PATH = './mangatown-mangas.json';
+
+  // Move groupme stuff out later
   const API_KEY = 'umgNh898yV3Nv9vmMCqpSmlSeI98g1U4mQY7No3X';
   const BOT_ID = '5db3781cb2fe4d9fe1e232c564';
+
+  // Subscribed mangas
   this.mangas = require(FILE_PATH) || {};
 
+  // Sends POST request to groupme api to send message inside group chapter
+  // Move this to another file
   this.sendMessage = ({title, chapter, released, chapterUrl}) => {
     const prettyDate = moment(released).format('MMMM Do YYYY');
     const message =`New ${title} chapter has been released!\nChapter title: ${chapter}\nRelease date: ${prettyDate}\nChapter url: ${chapterUrl}`;
-    // request.post(`https://api.groupme.com/v3/bots/post?token${API_KEY}`, {form: { bot_id: BOT_ID , text: message } }, (error, response, body) => {
-    //   if(error) throw error;
-    //   console.log(message);
-    // });
+    request.post(`https://api.groupme.com/v3/bots/post?token${API_KEY}`, {form: { bot_id: BOT_ID , text: message } }, (error, response, body) => {
+      if(error) throw error;
+      console.log(message);
+    });
   }
 
+  // Adds manga to subscription map.
   this.addManga = (url) => {
     if(!this.mangas[url]) {
       this.scrapeOne(url).then(manga => {
@@ -28,12 +37,14 @@ function MangatownScraper() {
     }
   }
 
+  // Saves this.manga into file to persist after scraper is closed.
   this.save = () => {
     const JSON_STRING = JSON.stringify(this.mangas, null, 2);
     fs.writeFileSync(FILE_PATH, JSON_STRING);
     return true;
   }
 
+  // Returns 1 if recent date is OLDER than old date
   this.compare = (recent, old) => {
     const recentDate = new Date(recent.released);
     const oldDate = new Date(old.released);
@@ -41,6 +52,9 @@ function MangatownScraper() {
     else return 0;
   }
 
+  // Uses momentjs to convert specific cases to valid JavaScript Date Strings
+  // Ex. Mangatown lists released date as Today or Yesterday then Month Date, Year format
+  // Changes Today or Yesterday to Date String format to easily compare between two objects
   this.convertDate = (date) => {
     let dateObj;
     if(date.toUpperCase() == 'TODAY') {
@@ -57,6 +71,8 @@ function MangatownScraper() {
     return dateObj;
   }
 
+  // Scrapes one manga home page to get data about the LASTEST chapter listed.
+  // Returns a promise that contains a manga object that contains TITLE, CHAPTER NAME, RELEASED DATE, AND CHAPTER URL
   this.scrapeOne = (url) => {
     return new Promise((resolve, reject) => {
       const requestObject = { method: 'GET', uri: url }
@@ -84,7 +100,9 @@ function MangatownScraper() {
     });
   }
 
-  // execution method
+  // Execution method
+  // This method will be called inside app.js to start the scraping cycle every X minutes.
+  // May need to throttle requests so manual 503 error does not occur! Work on this later!!
   this.scrapeAll = () => {
     let promises = [];
     let keys = Object.keys(this.mangas);
